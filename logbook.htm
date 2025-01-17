@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Time Tracker</title>
+    <link rel="stylesheet" href="logbook.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Worker Time Tracker</h1>
+
+        <form id="timeTrackerForm">
+            <div class="form-group">
+                <label for="workerName">Worker Name:</label>
+                <input type="text" id="workerName" placeholder="Enter worker's name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="arrivalTime">Arrival Time:</label>
+                <input type="time" id="arrivalTime" required>
+            </div>
+
+            <div class="form-group">
+                <label for="departureTime">Departure Time:</label>
+                <input type="time" id="departureTime" required>
+            </div>
+
+            <button type="submit" class="btn">Add Entry</button>
+            <button type="reset" class="btn reset-btn" id="resetBtn">Reset Form</button>
+        </form>
+
+        <h2>Time Records</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Worker Name</th>
+                    <th>Arrival Time</th>
+                    <th>Departure Time</th>
+                    <th>Recorded At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="timeRecords"></tbody>
+        </table>
+    </div>
+
+    <script>
+        const form = document.getElementById('timeTrackerForm');
+        const timeRecords = document.getElementById('timeRecords');
+        const resetBtn = document.getElementById('resetBtn');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const workerName = document.getElementById('workerName').value;
+            const arrivalTime = document.getElementById('arrivalTime').value;
+            const departureTime = document.getElementById('departureTime').value;
+            const recordedAt = new Date().toLocaleString();
+
+            // Create a new row with a delete button
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${workerName}</td>
+                <td>${arrivalTime}</td>
+                <td>${departureTime}</td>
+                <td>${recordedAt}</td>
+                <td><button class="delete-btn">Delete</button></td>
+            `;
+
+            // Add the row to the table
+            timeRecords.appendChild(row);
+
+            // Add delete functionality to the new row
+            row.querySelector('.delete-btn').addEventListener('click', () => {
+                row.remove();
+            });
+
+            // Reset the form
+            form.reset();
+        });
+
+        // Reset functionality
+        resetBtn.addEventListener('click', () => {
+            form.reset();
+        });
+    </script>
+</body>
+</html>
