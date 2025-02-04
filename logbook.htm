@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Worker Time Tracker</title>
+    
+    <!-- Link to external CSS file -->
     <link rel="stylesheet" href="logbook.css">
 </head>
 <body>
     <div class="container">
         <h1>Worker Time Tracker</h1>
 
+        <!-- Form for adding worker time entries -->
         <form id="timeTrackerForm">
             <div class="form-group">
                 <label for="workerName">Worker Name:</label>
@@ -26,11 +29,19 @@
                 <input type="time" id="departureTime" required>
             </div>
 
+            <div class="form-group">
+                <label for="Type of Duty">Type of Duty:</label>
+                <input type="text" id="Type of Duty" placeholder="Enter Officer's Duty" required>
+            </div>
+
+            <!-- Buttons to submit and reset the form -->
             <button type="submit" class="btn">Add Entry</button>
             <button type="reset" class="btn reset-btn" id="resetBtn">Reset Form</button>
         </form>
 
         <h2>Time Records</h2>
+
+        <!-- Table for displaying recorded worker times -->
         <table>
             <thead>
                 <tr>
@@ -38,51 +49,57 @@
                     <th>Arrival Time</th>
                     <th>Departure Time</th>
                     <th>Recorded At</th>
+                    <th>Type of Duty</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody id="timeRecords"></tbody>
+            <tbody id="timeRecords"></tbody> <!-- This is where new records will be added -->
         </table>
     </div>
 
     <script>
+        // Get references to form and table body elements
         const form = document.getElementById('timeTrackerForm');
         const timeRecords = document.getElementById('timeRecords');
         const resetBtn = document.getElementById('resetBtn');
 
+        // Event listener for form submission
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
+            e.preventDefault(); // Prevents the page from reloading when the form is submitted
 
+            // Get values from form fields
             const workerName = document.getElementById('workerName').value;
             const arrivalTime = document.getElementById('arrivalTime').value;
             const departureTime = document.getElementById('departureTime').value;
-            const recordedAt = new Date().toLocaleString();
+            const Type_of_Duty = document.getElementById('Type of Duty').value;
+            const recordedAt = new Date().toLocaleString(); // Get current date and time
 
-            // Create a new row with a delete button
+            // Create a new table row with worker details
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${workerName}</td>
                 <td>${arrivalTime}</td>
                 <td>${departureTime}</td>
+                <td>${Type_of_Duty}</td>
                 <td>${recordedAt}</td>
                 <td><button class="delete-btn">Delete</button></td>
             `;
 
-            // Add the row to the table
+            // Append the new row to the table
             timeRecords.appendChild(row);
 
-            // Add delete functionality to the new row
+            // Add event listener to delete button to remove the row
             row.querySelector('.delete-btn').addEventListener('click', () => {
                 row.remove();
             });
 
-            // Reset the form
+            // Reset the form fields
             form.reset();
         });
 
-        // Reset functionality
+        // Event listener for the reset button
         resetBtn.addEventListener('click', () => {
-            form.reset();
+            form.reset(); // Clears all form inputs
         });
     </script>
 </body>
